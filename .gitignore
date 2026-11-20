@@ -8,3 +8,5 @@ __pycache__/
 .venv/
 *.pyc
 research/private/
+desktop/dist/
+desktop/*.spec

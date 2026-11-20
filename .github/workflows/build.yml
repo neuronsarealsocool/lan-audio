@@ -26,3 +26,21 @@ jobs:
         with:
           name: lan-audio-debug
           path: app/build/outputs/apk/debug/app-debug.apk
+  windows-sender:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - run: python -m pip install -r desktop/requirements-build.txt
+      - run: ./desktop/build-windows.ps1 -Python python
+      - name: Test packaged worker and desktop source
+        shell: pwsh
+        run: |
+          $env:LAN_AUDIO_EXE = "$env:GITHUB_WORKSPACE/desktop/dist/LAN Audio.exe"
+          python -m unittest discover -s desktop -p 'test_*.py' -v
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lan-audio-windows
+          path: desktop/dist/LAN Audio.exe

@@ -1,5 +1,15 @@
 # Validation — 20 November 2026
 
+## 0.2.0 Windows GUI and launcher icon
+
+- Built a self-contained Windows x64 GUI with PyInstaller 6.22.3 / Python 3.14.3. Used native Windows computer-use observations to inspect its actual layout and operate Test tone, Start, Stop, Hide and Quit. Relaunching restored the same window without a second GUI instance.
+- The packaged GUI worker sent 1,000 valid tone blocks over five seconds to the A12. GUI Start opened the Realtek WASAPI loopback; playing a generated desktop WAV increased the phone's received/written counters. Stop ended the hidden worker, with no `--worker` processes left. The phone speaker was stopped afterward.
+- Ten desktop tests pass, including a real localhost integration test of the windowless executable worker, malformed-settings recovery and command quoting for paths with spaces. Five Android tests and Android lint/build pass.
+- Verified the desktop / Start menu shortcut targets and embedded icon, and the current-user sign-in Run command. Sign-in launch and automatic capture are separate settings. Real reboot/sign-in behavior has not been tested.
+- Installed version code 2 / version 0.2.0 on the A12. Added legacy-density launcher PNGs, Android adaptive icons and a monochrome layer, plus matching Windows ICO / tray / GUI artwork. Notification glyph remains separate. Themed icons on Android 13+ have not been device-tested.
+
+## 0.1.0 audio engine checks
+
 This preview was built locally on Windows and installed alongside the reference app on a Samsung Galaxy A12 (SM-A125F), Android 12 / API 31. No battery exemption or Samsung sleeping-list changes were made during testing.
 
 ## Automated checks
@@ -24,4 +34,4 @@ This preview was built locally on Windows and installed alongside the reference 
 
 Counters establish that traffic was received and PCM was written to AudioTrack; they are not microphone recordings or a perceptual quality assessment. Short runs do not establish overnight stability, battery drain, thermal behavior, long Wi-Fi roam behavior, reboot recovery, force-stop recovery, or newer-Android compatibility. The original app's exact background failure was not reproduced, so no comparative reliability percentage is claimed.
 
-The app intentionally requires a new user start after process death. TCP can retransmit and add latency; broken connections require restarting the desktop sender. The buffer caps backlog and may resynchronize rather than replay stale audio.
+The Android app intentionally requires a new user start after process death. TCP can retransmit and add latency; broken CLI connections require restarting the sender, while the Windows GUI can retry while Start audio is active. The buffer caps backlog and may resynchronize rather than replay stale audio.
