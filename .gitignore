@@ -1,0 +1,10 @@
+.gradle/
+**/build/
+local.properties
+*.jks
+*.keystore
+.idea/
+__pycache__/
+.venv/
+*.pyc
+research/private/
