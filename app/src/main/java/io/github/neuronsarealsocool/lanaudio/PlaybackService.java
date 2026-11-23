@@ -49,7 +49,7 @@ public final class PlaybackService extends Service {
     @Override public int onStartCommand(Intent intent,int flags,int startId) {
         if(intent!=null && "STOP".equals(intent.getAction())) { stopSelf();return START_NOT_STICKY; }
         if(running) return START_NOT_STICKY;
-        // Do not re-arm after a system kill with a null intent. The user starts each session.
+        // Opening the app or tapping Start begins a session. Null-intent system restarts do not.
         if(intent==null){stopSelf();return START_NOT_STICKY;}
         allowed=intent.getStringExtra("sender");if(allowed==null)allowed="";
         try {

@@ -2,7 +2,7 @@
 
 ## Windows app
 
-Download the Windows ZIP from the repository Releases, extract it and open **LAN Audio.exe**. It bundles Python and the audio dependencies; Windows 10/11 x64 is the supported desktop target. Enter the address displayed on the phone, start the phone speaker, then use **Test tone · 5 sec** or **Start audio**. **Stop** ends capture. The tray menu also has Stop and Quit.
+Download the Windows ZIP from the repository Releases, extract it and open **LAN Audio.exe**. It bundles Python and the audio dependencies; Windows 10/11 x64 is the supported desktop target. Enter the address displayed on the phone, open the phone app (its speaker starts automatically by default), then use **Test tone · 5 sec** or **Start audio**. **Stop** ends capture. The tray menu also has Stop and Quit.
 
 The bundled `install-windows.ps1` copies the executable to your user Programs folder and adds desktop / Start menu shortcuts. It needs no administrator rights:
 
@@ -31,7 +31,7 @@ python desktop/sender.py --list-devices
 python desktop/sender.py --host PHONE_IP
 ```
 
-Tap **Start speaker** on the phone first. Replace `PHONE_IP` with its Wi-Fi IPv4
+Open the phone app first (or tap **Start speaker** if automatic start is disabled). Replace `PHONE_IP` with its Wi-Fi IPv4
 address; both devices must be on the same trusted LAN. If necessary, allow Python
 on your Windows private network and permit TCP port 48100. Guest Wi-Fi client
 isolation can prevent devices from communicating.

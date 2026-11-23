@@ -8,7 +8,7 @@ An independent, lightweight Android Wi-Fi speaker and Windows system-audio sende
 
 1. Install the APK from [Releases](https://github.com/neuronsarealsocool/lan-audio/releases). Preview APKs are debug signed; install only if you trust this project.
 2. Put the PC and phone on the same private Wi-Fi network.
-3. Open **LAN Audio**, optionally restrict the sender to your PC's IPv4 address, and tap **Start speaker**. The phone displays its destination IP and port.
+3. Open **LAN Audio** on the phone. The speaker starts automatically by default, using your saved sender restriction if set; the phone displays its destination IP and port. **Start speaker when app opens** can be switched off for manual control.
 4. On Windows, download the Windows ZIP from [Releases](https://github.com/neuronsarealsocool/lan-audio/releases), extract it and open **LAN Audio.exe**. No Python installation is needed. Enter the phone address, click **Test tone**, then **Start audio** to send system sound. **Stop** ends capture. Close hides it to the tray; **Quit** exits.
 5. To create desktop / Start menu shortcuts, run the bundled `install-windows.ps1` from PowerShell. Add `-StartWithWindows` to enable sign-in startup, or toggle **Open in the tray at Windows sign-in** inside the GUI. **Start audio automatically when the app opens** is a separate opt-in setting; capture is off by default. The GUI remembers the phone address and can reconnect while Start is active.
 
@@ -30,12 +30,12 @@ The Windows sender captures the selected system output, including any audio play
 
 ## Background behavior
 
-- A user-started `mediaPlayback` foreground service owns audio, independently of the activity.
+- Opening the Android app starts its `mediaPlayback` foreground service by default. Returning to the app after leaving it readies the speaker again; rotating the current screen preserves an explicit Stop. The service owns audio independently of the activity.
 - A persistent notification and media session provide a Stop control.
 - Partial CPU and Wi-Fi locks keep the receiver ready while the speaker session is on. The CPU lock has a renewable timeout; both locks are released on Stop. This intentionally uses battery while armed, even when the sender is silent.
 - Audio focus is released after input goes idle. Permanent loss of focus ends the session; transient loss mutes output until focus returns.
 - TCP is the default transport to avoid the datagram loss observed on the test phone. UDP is available with `--transport udp`. Network receive and playback run on separate threads. A bounded buffer reorders packets, conceals short gaps with silence, and re-buffers after sustained underflow instead of replaying an ever-growing backlog.
-- Network traffic and audio stop with the service. There is no boot auto-start or automatic recovery from force-stop / process death.
+- Network traffic and audio stop with the service. There is no boot auto-start or hidden restart after force-stop / process death; opening the app again starts a new session.
 
 On Samsung phones, remove the app from **Sleeping apps** / **Deep sleeping apps** if needed. The **Battery settings** button opens Android settings; battery exemption is optional. A foreground service improves lifecycle reliability but cannot guarantee survival under every OEM policy or memory condition.
 

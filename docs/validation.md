@@ -1,5 +1,13 @@
 # Validation — 20 November 2026
 
+## 0.2.1 automatic mobile startup — 23 November 2026
+
+- Installed version code 3 / version 0.2.1 in place on the same Galaxy A12. A cold Activity launch, without tapping Start, produced a foreground PlaybackService and `READY port=48100`.
+- Stopped the speaker in the visible app, verified the service ended, went Home and reopened the existing Activity. It started a new foreground service without tapping Start.
+- Switched automatic start off, stopped the speaker and reopened the app. The service remained stopped. Automatic start was re-enabled after testing.
+- The already-running Windows GUI worker connected to the automatically opened receiver and received/written counters increased. A separate CLI tone attempt while another sender held the TCP receiver timed out; that attempt is not counted as a successful audio test.
+- Android receiver unit tests, lint and debug APK build passed. No Windows executable changes are required. Rotation preservation is handled by the saved Activity process identity; this release did not run an additional physical-rotation test. Android 13+ notification-denial behavior is implemented but not device-tested on the Android 12 test phone.
+
 ## 0.2.0 Windows GUI and launcher icon
 
 - Built a self-contained Windows x64 GUI with PyInstaller 6.22.3 / Python 3.14.3. Used native Windows computer-use observations to inspect its actual layout and operate Test tone, Start, Stop, Hide and Quit. Relaunching restored the same window without a second GUI instance.
